@@ -10,6 +10,8 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
+import java.math.BigDecimal;
+
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.ONE_REST_REQUEST;
 import static java.util.Objects.requireNonNull;
 
@@ -17,8 +19,8 @@ import static java.util.Objects.requireNonNull;
 public final class PostLendingOffer extends UserRestRequest<PostLendingOffer.Response> {
 
   public String coin;
-  public Double rate;
-  public Double size;
+  public BigDecimal rate;
+  public BigDecimal size;
 
   PostLendingOffer(IActor actor, RestContext context) {
     super(actor, context);
@@ -29,12 +31,12 @@ public final class PostLendingOffer extends UserRestRequest<PostLendingOffer.Res
     return this;
   }
 
-  public PostLendingOffer setRate(Double rate) {
+  public PostLendingOffer setRate(BigDecimal rate) {
     this.rate = rate;
     return this;
   }
 
-  public PostLendingOffer setSize(Double size) {
+  public PostLendingOffer setSize(BigDecimal size) {
     this.size = size;
     return this;
   }

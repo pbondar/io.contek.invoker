@@ -81,7 +81,7 @@ public final class UserRestApi {
     return new GetLendingOffers(actor, context);
   }
 
-  public PostLendingOffer postLendingOffer(final _LendingOffer lendingOffer) {
+  public PostLendingOffer postLendingOffer() {
     return new PostLendingOffer(actor, context);
   }
 }

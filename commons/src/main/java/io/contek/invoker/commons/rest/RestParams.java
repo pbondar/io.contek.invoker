@@ -1,15 +1,15 @@
 package io.contek.invoker.commons.rest;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
 
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static java.util.stream.Collectors.joining;
 
@@ -18,9 +18,9 @@ public final class RestParams {
 
   private static final RestParams EMPTY = RestParams.newBuilder().build();
 
-  private final ImmutableMap<String, Object> values;
+  private final Map<String, Object> values;
 
-  private RestParams(ImmutableMap<String, Object> values) {
+  private RestParams(Map<String, Object> values) {
     this.values = values;
   }
 
@@ -40,7 +40,7 @@ public final class RestParams {
     return values.isEmpty();
   }
 
-  public ImmutableMap<String, Object> getValues() {
+  public Map<String, Object> getValues() {
     return values;
   }
 
@@ -70,8 +70,17 @@ public final class RestParams {
       return this;
     }
 
+    public Builder add(String key, BigDecimal value) {
+      return add(key, value.stripTrailingZeros().toPlainString());
+    }
+
+    public Builder addNullValue(String key) {
+      values.put(key, null);
+      return this;
+    }
+
     public Builder add(String key, double value) {
-      return add(key, BigDecimal.valueOf(value).toPlainString());
+      return add(key, BigDecimal.valueOf(value));
     }
 
     public Builder add(String key, boolean value) {
@@ -95,9 +104,9 @@ public final class RestParams {
 
     public RestParams build(boolean sort) {
       if (sort) {
-        return new RestParams(ImmutableSortedMap.copyOf(values));
+        return new RestParams(Collections.unmodifiableMap(new TreeMap<>(values)));
       }
-      return new RestParams(ImmutableMap.copyOf(values));
+      return new RestParams(Collections.unmodifiableMap(values));
     }
   }
 }

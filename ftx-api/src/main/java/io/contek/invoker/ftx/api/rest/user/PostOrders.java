@@ -11,6 +11,8 @@ import io.contek.invoker.ftx.api.rest.common.RestResponse;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
+import java.math.BigDecimal;
+
 import static io.contek.invoker.commons.rest.RestMethod.POST;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.API_KEY_REST_ORDER_RULE;
 import static io.contek.invoker.ftx.api.ApiFactory.RateLimits.IP_REST_REQUEST_RULE;
@@ -24,9 +26,9 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
 
   private String market;
   private String side;
-  private Double price;
+  private BigDecimal price;
   private String type;
-  private Double size;
+  private BigDecimal size;
   private Boolean reduceOnly;
   private Boolean ioc;
   private Boolean postOnly;
@@ -46,7 +48,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return this;
   }
 
-  public PostOrders setPrice(Double price) {
+  public PostOrders setPrice(BigDecimal price) {
     this.price = price;
     return this;
   }
@@ -56,7 +58,7 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
     return this;
   }
 
-  public PostOrders setSize(Double size) {
+  public PostOrders setSize(BigDecimal size) {
     this.size = size;
     return this;
   }
@@ -109,6 +111,8 @@ public final class PostOrders extends UserRestRequest<PostOrders.Response> {
 
     if (price != null) {
       builder.add("price", price);
+    } else {
+      builder.addNullValue("price");
     }
 
     if (reduceOnly != null) {
